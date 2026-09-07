@@ -2,14 +2,20 @@
   /* --- backgrounds --- */
   --color-ground: var(--ground);
   --color-raised: var(--raised);
-  --color-lowered: color-mix(in oklab, var(--ground) 92%, black);
+  --color-lowered: var(--lowered);
 
-  /* --- text --- */
+  /* elevated/elevated-alt: for items like sidepanels, modals, and other
+     surfaces that need to read as distinct from a regular "raised" item */
+  --color-elevated: var(--elevated);
+  --color-elevated-alt: var(--elevated-alt);
+
+  /* --- text / borders --- */
   /* strength: fg (strongest) > subtle > muted > faint (very weak) */
   --color-fg: var(--fg);
   --color-subtle: var(--subtle);
   --color-muted: var(--muted);
   --color-faint: var(--faint);
+  --color-extra-faint: color-mix(in oklab, var(--faint) 50%, transparent);
 
   /* --- borders --- */
   --color-line: var(--line);
@@ -17,15 +23,12 @@
   /* --- accent --- */
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
-  --color-accent-weak: var(--accent-weak);
+  --color-accent-muted: color-mix(in oklab, var(--accent) 45%, var(--muted));
 
   /* --- status --- */
   --color-success: var(--success);
-  --color-success-weak: var(--success-weak);
   --color-warning: var(--warning);
-  --color-warning-weak: var(--warning-weak);
   --color-failure: var(--failure);
-  --color-failure-weak: var(--failure-weak);
 
   /* --- typography --- */
   --font-sans:
@@ -44,6 +47,9 @@
 
   --ground: #0b0b0e;
   --raised: #131316;
+  --lowered: #060607;
+  --elevated: #191a1e;
+  --elevated-alt: #1e1f24;
 
   --fg: rgba(230, 235, 240, 0.94);
   --subtle: rgba(195, 205, 215, 0.75);
@@ -54,18 +60,12 @@
 
   --accent-strong: #66ffb2; /* rare, special */
   --accent: #49ca8a; /* normal primary */
-  --accent-weak: rgba(94, 230, 163, 0.65); /* default usage */
 
   --accent-neutral: #5ee7ff;
 
   --success: #4cff9a;
-  --success-weak: rgba(76, 255, 154, 0.65);
-
   --warning: #ffc12f;
-  --warning-weak: #ffc12fb9;
-
   --failure: #ff2d55;
-  --failure-weak: rgba(255, 45, 85, 0.65);
 
   --panel-shadow:
     0 0 10px rgba(102, 255, 178, 0.25), 0 0 40px rgba(102, 255, 178, 0.1);
@@ -76,6 +76,9 @@
 
   --ground: #010208;
   --raised: #0b0f29; /* noticeably lifted */
+  --lowered: #000104;
+  --elevated: #131a3d;
+  --elevated-alt: #182050;
 
   --fg: rgba(220, 222, 235, 0.95);
   --subtle: rgba(190, 195, 225, 0.78);
@@ -85,20 +88,13 @@
   --line: rgba(120, 140, 255, 0.45);
 
   --accent: #7c84ff;
-  --accent-weak: rgba(124, 132, 255, 0.7);
   --accent-strong: #a5abff;
 
   --accent-neutral: #d6ff6b;
-  --accent-neutral-weak: rgba(214, 255, 107, 0.55);
 
   --success: #7cf7d4;
-  --success-weak: rgba(124, 247, 212, 0.6);
-
   --warning: #d6ff6b;
-  --warning-weak: rgba(214, 255, 107, 0.5);
-
   --failure: #f0356a;
-  --failure-weak: rgba(240, 53, 106, 0.75);
 
   --panel-shadow:
     0 0 24px rgba(124, 132, 255, 0.22), 0 0 80px rgba(124, 132, 255, 0.14),

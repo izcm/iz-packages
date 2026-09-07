@@ -39,12 +39,11 @@ export function InlineAmountInput({
     <div className="flex items-center gap-2">
       {open && (
         <TextInput
-          ref={ref}
           value={amount}
           onSubmit={confirm}
           numeric
           className="p-0 h-5 border-l-0 border-r-0 border-t-0 rounded-none box-border leading-5 w-20 bg-transparent text-sm text-right outline-none border-b border-accent/40"
-          input={{ onChange: (e) => setAmount(e.target.value) }}
+          htmlInputProps={{ ref, onChange: (e) => setAmount(e.target.value) }}
         />
       )}
       <button

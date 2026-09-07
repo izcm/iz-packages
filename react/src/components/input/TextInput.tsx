@@ -6,12 +6,11 @@ import { EnterIcon } from "@/lib/icons.js";
 type Props = {
   value?: string;
   onSubmit?: (value: string) => void;
-  ref?: React.Ref<HTMLInputElement>;
   numeric?: boolean;
   className?: string;
   submitLabel?: string;
   startIcon?: React.ReactNode;
-  input?: React.ComponentProps<"input">;
+  htmlInputProps?: React.ComponentProps<"input">;
 };
 
 // internal state is added. then render only happens on submit
@@ -19,12 +18,11 @@ type Props = {
 export function TextInput({
   value,
   onSubmit,
-  ref,
   numeric,
   className,
   submitLabel,
   startIcon,
-  input,
+  htmlInputProps: input,
 }: Props) {
   const [internal, setInternal] = useState(value ?? "");
   const [prevValue, setPrevValue] = useState(value);
@@ -36,19 +34,14 @@ export function TextInput({
   }
 
   return (
-    <div
-      className={cn(
-        "text-input flex items-center w-full rounded-lg border border-line",
-        className,
-      )}
-    >
+    <div className={cn("text-input flex items-center w-full", className)}>
       {startIcon && (
         <span className="ml-3 shrink-0 text-muted">{startIcon}</span>
       )}
 
       <input
         {...input}
-        ref={ref}
+        ref={input?.ref}
         className={cn(
           "min-w-0 flex-1 px-4 py-2 outline-none",
           input?.className,

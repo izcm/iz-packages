@@ -1,14 +1,6 @@
 import type { ReactNode } from "react";
 import { useEffect, useRef } from "react";
 
-import { cn } from "@/lib/utils/cn.js";
-
-export const defaultArrowClasses = {
-  base: "rounded-lg bg-raised border border-faint transition cursor-pointer",
-  hover: "hover:bg-accent/10",
-  selected: "bg-accent/25",
-};
-
 type ArrowRowProps = {
   isSelected: boolean;
   onSelect: () => void;
@@ -17,7 +9,6 @@ type ArrowRowProps = {
   className?: string;
   dataId?: string;
   dataTestId?: string;
-  bare?: boolean;
   focusOnMount?: boolean;
 };
 
@@ -29,7 +20,6 @@ export function ArrowRow({
   className,
   dataId,
   dataTestId,
-  bare: bareRow,
   focusOnMount = true,
 }: ArrowRowProps) {
   const ref = useRef<HTMLLIElement>(null);
@@ -51,15 +41,6 @@ export function ArrowRow({
     isInitialMount.current = false;
   }, [isSelected, focusOnMount]);
 
-  const appliedClasses = bareRow
-    ? className
-    : cn(
-        defaultArrowClasses.base,
-        !isSelected && defaultArrowClasses.hover,
-        isSelected && defaultArrowClasses.selected,
-        className,
-      );
-
   return (
     <li
       ref={ref}
@@ -73,7 +54,7 @@ export function ArrowRow({
           onEnter();
         }
       }}
-      className={appliedClasses}
+      className={className}
     >
       {children}
     </li>

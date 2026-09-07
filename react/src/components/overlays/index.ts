@@ -1,2 +1,2 @@
-export * from './Modal.js'
-export * from './Popover.js'
+export * from "./Modal.js";
+export * from "./ClickPopover.js";

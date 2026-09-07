@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import React, { useRef } from "react";
 
+import { cn } from "@/lib/utils/cn.js";
+
 type ArrowListProps<T> = {
   items: readonly T[];
   getId: (item: T) => string;
@@ -38,7 +40,7 @@ export function ArrowList<T>({
   return (
     <ul
       ref={ref}
-      className={`${base} ${className}`}
+      className={cn(base, className)}
       tabIndex={0}
       onFocus={(e) => {
         if (e.target !== e.currentTarget) return;

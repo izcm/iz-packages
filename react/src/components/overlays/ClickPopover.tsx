@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils/cn.js";
 
-type PopoverProps = {
+type ClickPopoverProps = {
   trigger: React.ReactNode;
   children: React.ReactNode;
   align?: "left" | "right";
@@ -13,14 +13,20 @@ type PopoverProps = {
   onOpenChange?: (open: boolean) => void;
 };
 
-export function Popover({
+/**
+ * Popover that toggles when its trigger is clicked.
+ *
+ * Handles its own open state by default, click-outside closing,
+ * and Escape. Pass `open` and `onOpenChange` to control it externally.
+ */
+export function ClickPopover({
   trigger,
   children,
   align = "right",
   contentClassName,
   open: openProp,
   onOpenChange,
-}: PopoverProps) {
+}: ClickPopoverProps) {
   const [internalOpen, setInternalOpen] = useState(false);
   const open = openProp ?? internalOpen;
 

@@ -22,7 +22,12 @@ export function ImageRow({
   className,
 }: Props) {
   return (
-    <div className={cn("grid grid-cols-[auto_1fr_auto] items-center gap-4 py-1 px-2", className)}>
+    <div
+      className={cn(
+        "grid grid-cols-[auto_1fr_auto] items-center gap-4 py-1 px-2",
+        className,
+      )}
+    >
       <div data-slot="image-wrap" className="relative shrink-0">
         <img
           data-slot="image"
@@ -35,7 +40,7 @@ export function ImageRow({
         {imageBadge}
       </div>
 
-      <div className="flex flex-col justify-center text-start min-w-0">
+      <div className="flex flex-col justify-center min-w-0">
         <span data-slot="title" className="text-sm font-semibold truncate">
           {title}
         </span>

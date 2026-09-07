@@ -3,13 +3,13 @@ import { useEffect, useRef } from "react";
 import { FocusTrap } from "focus-trap-react";
 import { cn } from "@/lib/utils/cn.js";
 
-export const defaultModalClasses = [
-  "flex flex-col gap-2",
-  "bg-raised",
-  "border border-line",
-  "rounded-lg",
-  "shadow-lg p-2",
-].join(" ");
+// export const defaultModalClasses = [
+//   "flex flex-col gap-2",
+//   "bg-raised",
+//   "border border-line",
+//   "rounded-lg",
+//   "shadow-lg p-2",
+// ].join(" ");
 
 type ModalProps = {
   isOpen: boolean;
@@ -21,7 +21,7 @@ type ModalProps = {
   ariaLabelledBy?: string;
   className?: string;
   bare?: boolean;
-  noOverlay?: boolean;
+  overlayClassName?: string;
   children: ReactNode;
 };
 
@@ -32,11 +32,14 @@ export function Modal({
   escTxt = "Close",
   hideCancelBtn = false,
   selfManagesFocus,
+
   ariaLabel,
   ariaLabelledBy,
+
   className,
-  bare = false,
-  noOverlay = false,
+  overlayClassName,
+
+  // bare = false,
 }: ModalProps) {
   const lastFocusedRef = useRef<HTMLElement | null>(null);
 
@@ -66,7 +69,7 @@ export function Modal({
     <div
       className={cn(
         "fixed inset-0 z-[999] flex items-center justify-center",
-        !noOverlay && "bg-black/50 backdrop-blur-sm animate-fadeIn",
+        overlayClassName,
       )}
       onClick={onClose}
     >
@@ -77,7 +80,7 @@ export function Modal({
         }}
       >
         <div
-          className={cn(!bare && defaultModalClasses, className)}
+          className={cn(className)}
           onClick={(e) => e.stopPropagation()}
           role="dialog"
           aria-modal="true"

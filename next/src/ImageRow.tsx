@@ -40,7 +40,7 @@ export function ImageRow({
         {imageBadge}
       </div>
 
-      <div className="flex flex-col justify-center text-start min-w-0">
+      <div className="flex flex-col justify-center min-w-0">
         <span data-slot="title" className="text-sm font-semibold truncate">
           {title}
         </span>

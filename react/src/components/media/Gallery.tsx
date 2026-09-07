@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils/cn.js";
 
 export type GalleryProps<T> = {
   // items and selection
-  items: T[];
+  items: readonly T[];
   getId: (item: T) => string;
   selected?: T;
   onSelect?: (item: T) => void;
@@ -15,15 +15,19 @@ export type GalleryProps<T> = {
   // render
   galleryItem: (item: T) => ReactNode;
   isFresh?: (item: T) => boolean;
-  galleryView?: "list" | "card";
-  itemClassName?: (isSelected: boolean, isFesh?: boolean) => string;
+  isDisabled?: (item: T) => boolean;
+  itemClassName?: (state: {
+    isSelected: boolean;
+    isFresh?: boolean;
+    isDisabled?: boolean;
+  }) => string;
 
   // ref + pagination
   ref?: RefObject<HTMLUListElement | null>;
   onLoadMore?: () => void;
   isLoading?: boolean;
   hasMore?: boolean;
-  bareRows?: boolean; // strip default css classes
+  className?: { arrowList?: string; arrowRow?: string };
 };
 
 export function Gallery<T>({
@@ -34,13 +38,13 @@ export function Gallery<T>({
   onSelect,
   onEnter,
   isFresh,
-  galleryView = "list",
+  isDisabled,
   itemClassName,
   ref,
   onLoadMore,
   isLoading,
   hasMore,
-  bareRows,
+  className,
 }: GalleryProps<T>) {
   // load more on 'regular' scroll
   useEffect(() => {
@@ -89,45 +93,37 @@ export function Gallery<T>({
     el.scrollTop -= 40;
   }, [selected, ref]);
 
-  const galleryClasses =
-    galleryView === "list"
-      ? {
-          arrowList: "flex flex-col gap-4",
-        }
-      : {
-          arrowList:
-            "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 lg-rounded",
-          arrowRow:
-            "outline-none focus-visible:ring-0.5 focus-visible:ring-accent rounded-lg block",
-        };
-
   return (
-    <div className="flex h-full min-h-0 gap-4">
-      {/* LEFT COLUMN */}
-      <div className="flex min-h-0 flex-1 flex-col gap-4">
-        <ArrowList
-          ref={ref}
-          items={items}
-          getId={getId}
-          selectedId={selected ? getId(selected) : undefined}
-          onSelect={(c) => onSelect?.(c)}
-          className={`${galleryClasses.arrowList} min-h-0 flex-1 rounded-lg p-1`}
-        >
-          {({ item, isSelected, onSelect }) => (
-            <ArrowRow
-              key={getId(item)}
-              isSelected={isSelected}
-              onSelect={onSelect}
-              onEnter={onEnter ? () => onEnter(item) : undefined}
-              dataId={getId(item)}
-              className={cn(itemClassName?.(isSelected, isFresh?.(item)))}
-              bare={bareRows} // strip default classes
-            >
-              {galleryItem(item)}
-            </ArrowRow>
+    <ArrowList
+      ref={ref}
+      items={items}
+      getId={getId}
+      selectedId={selected ? getId(selected) : undefined}
+      onSelect={(c) => onSelect?.(c)}
+      className={cn(
+        // "min-h-0 flex-1 p-1",
+        className?.arrowList,
+      )}
+    >
+      {({ item, isSelected, onSelect }) => (
+        <ArrowRow
+          key={getId(item)}
+          isSelected={isSelected}
+          onSelect={onSelect}
+          onEnter={onEnter ? () => onEnter(item) : undefined}
+          dataId={getId(item)}
+          className={cn(
+            itemClassName?.({
+              isSelected,
+              isFresh: isFresh?.(item),
+              isDisabled: isDisabled?.(item),
+            }),
+            className?.arrowRow,
           )}
-        </ArrowList>
-      </div>
-    </div>
+        >
+          {galleryItem(item)}
+        </ArrowRow>
+      )}
+    </ArrowList>
   );
 }

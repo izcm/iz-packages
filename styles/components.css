@@ -53,8 +53,8 @@
 
   /* selected */
   .btn-rounded[data-active="true"] {
-    border-color: var(--accent-weak);
-    color: var(--accent-weak);
+    border-color: color-mix(in oklab, var(--accent) 65%, transparent);
+    color: color-mix(in oklab, var(--accent) 65%, transparent);
 
     background: color-mix(in oklab, var(--accent) 9%, transparent);
   }

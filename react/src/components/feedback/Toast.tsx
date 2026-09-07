@@ -22,7 +22,7 @@ function getTitleColor(variant?: ToastVariant) {
     case "success":
       return "text-success";
     default:
-      return "text-accent-weak";
+      return "text-accent/65";
   }
 }
 
