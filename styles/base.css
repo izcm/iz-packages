@@ -10,12 +10,12 @@ body,
   margin: 0;
 }
 
-:focus-visible {
+/* :focus-visible {
   outline: none;
   box-shadow:
     0 0 0 2px var(--ground),
     0 0 0 4px color-mix(in oklab, var(--accent) 80%, white);
-}
+} */
 
 input:focus,
 .text-input:focus-within {

@@ -1,25 +1,27 @@
-import type { ReactNode } from "react";
+import type { ComponentProps, ReactNode } from "react";
 import { useEffect, useRef } from "react";
 
 type ArrowRowProps = {
   isSelected: boolean;
+  isDisabled?: boolean;
   onSelect: () => void;
   onEnter?: () => void;
   children: ReactNode;
   className?: string;
-  dataId?: string;
-  dataTestId?: string;
   focusOnMount?: boolean;
+  htmlLiElementProps?: ComponentProps<"li"> & {
+    [key: `data-${string}`]: string;
+  };
 };
 
 export function ArrowRow({
   isSelected,
+  isDisabled,
   onSelect,
   onEnter,
   children,
   className,
-  dataId,
-  dataTestId,
+  htmlLiElementProps,
   focusOnMount = true,
 }: ArrowRowProps) {
   const ref = useRef<HTMLLIElement>(null);
@@ -43,13 +45,13 @@ export function ArrowRow({
 
   return (
     <li
+      {...htmlLiElementProps}
       ref={ref}
-      data-id={dataId}
-      data-testid={dataTestId}
-      tabIndex={isSelected ? 0 : -1}
-      onClick={onEnter ?? onSelect}
+      aria-disabled={isDisabled}
+      tabIndex={!isDisabled && isSelected ? 0 : -1}
+      onClick={isDisabled ? undefined : (onEnter ?? onSelect)}
       onKeyDown={(e) => {
-        if (e.key === "Enter" && onEnter) {
+        if (e.key === "Enter" && onEnter && !isDisabled) {
           e.preventDefault();
           onEnter();
         }

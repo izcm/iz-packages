@@ -1,16 +1,12 @@
-import type { ReactNode } from "react";
-import { useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
+
 import { FocusTrap } from "focus-trap-react";
+
 import { cn } from "@/lib/utils/cn.js";
 
-// export const defaultModalClasses = [
-//   "flex flex-col gap-2",
-//   "bg-raised",
-//   "border border-line",
-//   "rounded-lg",
-//   "shadow-lg p-2",
-// ].join(" ");
-
+// todo: https://react.dev/reference/react-dom/createPortal
+// lets modal "escape" parent and render in `body`
 type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -20,7 +16,6 @@ type ModalProps = {
   ariaLabel?: string;
   ariaLabelledBy?: string;
   className?: string;
-  bare?: boolean;
   overlayClassName?: string;
   children: ReactNode;
 };
@@ -38,8 +33,6 @@ export function Modal({
 
   className,
   overlayClassName,
-
-  // bare = false,
 }: ModalProps) {
   const lastFocusedRef = useRef<HTMLElement | null>(null);
 
@@ -65,18 +58,17 @@ export function Modal({
 
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div
       className={cn(
-        "fixed inset-0 z-[999] flex items-center justify-center",
+        "fixed inset-0 z-50 flex items-center justify-center",
         overlayClassName,
       )}
       onClick={onClose}
     >
       <FocusTrap
         focusTrapOptions={{
-          initialFocus:
-            selfManagesFocus || hideCancelBtn ? false : "#modal-close-btn",
+          initialFocus: selfManagesFocus ? false : "#modal-focus-element",
         }}
       >
         <div
@@ -91,7 +83,6 @@ export function Modal({
 
           {!hideCancelBtn && (
             <button
-              id="modal-close-btn"
               className="btn btn-secondary outline-none"
               onClick={onClose}
             >
@@ -100,6 +91,7 @@ export function Modal({
           )}
         </div>
       </FocusTrap>
-    </div>
+    </div>,
+    document.body,
   );
 }

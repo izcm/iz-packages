@@ -36,7 +36,9 @@ export function TextInput({
   return (
     <div className={cn("text-input flex items-center w-full", className)}>
       {startIcon && (
-        <span className="ml-3 shrink-0 text-muted">{startIcon}</span>
+        <span className="ml-3 shrink-0 text-muted" aria-hidden="true">
+          {startIcon}
+        </span>
       )}
 
       <input
@@ -70,7 +72,7 @@ export function TextInput({
 
       {internal !== (value ?? "") && submitLabel && (
         <span className="mr-3 inline-flex shrink-0 items-center gap-1 text-xs text-muted">
-          <EnterIcon size={14} />
+          <EnterIcon size={14} aria-hidden="true" />
           {submitLabel}
         </span>
       )}

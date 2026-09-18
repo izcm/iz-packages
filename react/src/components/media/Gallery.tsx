@@ -4,6 +4,27 @@ import { ArrowRow } from "../data-display/index.js";
 import { ArrowList } from "../navigation/index.js";
 import { cn } from "@/lib/utils/cn.js";
 
+const focusInset =
+  "focus-visible:!ring-1 focus-visible:!ring-accent focus-visible:!ring-inset;";
+
+// depends on the theme variables in a2zb/styles
+// decoupled from gallery, callers that use a2zb/styles may use
+export const defaultClasses = ({
+  isSelected,
+  isDisabled = false,
+}: {
+  isSelected: boolean;
+  isDisabled?: boolean;
+}) =>
+  cn(
+    "border rounded p-4 flex flex-col gap-3 transition bg-raised cursor-pointer",
+    isDisabled
+      ? "border-line opacity-60 pointer-events-none cursor-default"
+      : isSelected
+        ? "[&_svg]:text-accent border-accent-muted"
+        : "border-line hover:border-accent",
+  );
+
 export type GalleryProps<T> = {
   // items and selection
   items: readonly T[];
@@ -14,12 +35,12 @@ export type GalleryProps<T> = {
 
   // render
   galleryItem: (item: T) => ReactNode;
-  isFresh?: (item: T) => boolean;
   isDisabled?: (item: T) => boolean;
+  isFresh?: (item: T) => boolean;
   itemClassName?: (state: {
     isSelected: boolean;
-    isFresh?: boolean;
     isDisabled?: boolean;
+    isFresh?: boolean;
   }) => string;
 
   // ref + pagination
@@ -28,6 +49,7 @@ export type GalleryProps<T> = {
   isLoading?: boolean;
   hasMore?: boolean;
   className?: { arrowList?: string; arrowRow?: string };
+  direction?: "vertical" | "horizontal";
 };
 
 export function Gallery<T>({
@@ -37,14 +59,15 @@ export function Gallery<T>({
   selected,
   onSelect,
   onEnter,
-  isFresh,
   isDisabled,
+  isFresh,
   itemClassName,
   ref,
   onLoadMore,
   isLoading,
   hasMore,
   className,
+  direction,
 }: GalleryProps<T>) {
   // load more on 'regular' scroll
   useEffect(() => {
@@ -100,6 +123,8 @@ export function Gallery<T>({
       getId={getId}
       selectedId={selected ? getId(selected) : undefined}
       onSelect={(c) => onSelect?.(c)}
+      isDisabled={isDisabled}
+      direction={direction}
       className={cn(
         // "min-h-0 flex-1 p-1",
         className?.arrowList,
@@ -109,14 +134,15 @@ export function Gallery<T>({
         <ArrowRow
           key={getId(item)}
           isSelected={isSelected}
+          isDisabled={isDisabled?.(item)}
           onSelect={onSelect}
           onEnter={onEnter ? () => onEnter(item) : undefined}
-          dataId={getId(item)}
+          htmlLiElementProps={{ "data-id": getId(item) }}
           className={cn(
             itemClassName?.({
               isSelected,
-              isFresh: isFresh?.(item),
               isDisabled: isDisabled?.(item),
+              isFresh: isFresh?.(item),
             }),
             className?.arrowRow,
           )}

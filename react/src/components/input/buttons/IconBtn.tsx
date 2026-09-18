@@ -19,7 +19,8 @@ export function IconBtn({
       className={cn("flex btn text-sm text-fg no-underline", className)}
     >
       <div className="flex items-center gap-3">{children}</div>
-      <Icon className="h-4 w-4 shrink-0 text-accent" />
+
+      <Icon aria-hidden="true" className="h-4 w-4 shrink-0 text-accent" />
     </button>
   );
 }

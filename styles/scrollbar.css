@@ -1,4 +1,4 @@
-*::-webkit-scrollbar {
+/* *::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
@@ -20,7 +20,7 @@
 
 *::-webkit-scrollbar-corner {
   background: transparent;
-}
+} */
 
 .scrollbar-hide {
   -ms-overflow-style: none;
@@ -31,8 +31,8 @@
   display: none;
 }
 
-input[type="checkbox"],
+/* input[type="checkbox"],
 input[type="radio"],
 input[type="range"] {
   accent-color: var(--accent);
-}
+} */
