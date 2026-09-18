@@ -1,4 +1,4 @@
-import { ReactNode, RefObject, useEffect } from "react";
+import { ComponentProps, ReactNode, RefObject, useEffect } from "react";
 
 import { ArrowRow } from "../data-display/index.js";
 import { ArrowList } from "../navigation/index.js";
@@ -34,22 +34,26 @@ export type GalleryProps<T> = {
   onEnter?: (item: T) => void;
 
   // render
-  galleryItem: (item: T) => ReactNode;
+  galleryItem: (item: T, isSelected: boolean) => ReactNode;
   isDisabled?: (item: T) => boolean;
   isFresh?: (item: T) => boolean;
-  itemClassName?: (state: {
-    isSelected: boolean;
-    isDisabled?: boolean;
-    isFresh?: boolean;
-  }) => string;
 
   // ref + pagination
   ref?: RefObject<HTMLUListElement | null>;
   onLoadMore?: () => void;
   isLoading?: boolean;
   hasMore?: boolean;
-  className?: { arrowList?: string; arrowRow?: string };
+  className?: {
+    arrowList?: string;
+    arrowRow?: (state: {
+      isSelected: boolean;
+      isDisabled?: boolean;
+      isFresh?: boolean;
+    }) => string;
+  };
   direction?: "vertical" | "horizontal";
+  htmlUlElementProps?: Omit<ComponentProps<"ul">, "className" | "ref">;
+  htmlLiElementProps?: Omit<ComponentProps<"li">, "className" | "ref">;
 };
 
 export function Gallery<T>({
@@ -61,13 +65,14 @@ export function Gallery<T>({
   onEnter,
   isDisabled,
   isFresh,
-  itemClassName,
   ref,
   onLoadMore,
   isLoading,
   hasMore,
   className,
   direction,
+  htmlUlElementProps,
+  htmlLiElementProps,
 }: GalleryProps<T>) {
   // load more on 'regular' scroll
   useEffect(() => {
@@ -125,6 +130,7 @@ export function Gallery<T>({
       onSelect={(c) => onSelect?.(c)}
       isDisabled={isDisabled}
       direction={direction}
+      htmlUlElementProps={htmlUlElementProps}
       className={cn(
         // "min-h-0 flex-1 p-1",
         className?.arrowList,
@@ -137,17 +143,14 @@ export function Gallery<T>({
           isDisabled={isDisabled?.(item)}
           onSelect={onSelect}
           onEnter={onEnter ? () => onEnter(item) : undefined}
-          htmlLiElementProps={{ "data-id": getId(item) }}
-          className={cn(
-            itemClassName?.({
-              isSelected,
-              isDisabled: isDisabled?.(item),
-              isFresh: isFresh?.(item),
-            }),
-            className?.arrowRow,
-          )}
+          htmlLiElementProps={{ ...htmlLiElementProps, "data-id": getId(item) }}
+          className={className?.arrowRow?.({
+            isSelected,
+            isDisabled: isDisabled?.(item),
+            isFresh: isFresh?.(item),
+          })}
         >
-          {galleryItem(item)}
+          {galleryItem(item, isSelected)}
         </ArrowRow>
       )}
     </ArrowList>

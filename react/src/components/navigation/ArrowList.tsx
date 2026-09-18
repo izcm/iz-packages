@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ComponentProps, ReactNode } from "react";
 import React, { useRef } from "react";
 
 import { cn } from "@/lib/utils/cn.js";
@@ -18,6 +18,7 @@ type ArrowListProps<T> = {
   ref?: React.RefObject<HTMLUListElement | null>;
   direction?: "vertical" | "horizontal";
   bare?: boolean;
+  htmlUlElementProps?: Omit<ComponentProps<"ul">, "className" | "ref">;
 };
 
 export function ArrowList<T>({
@@ -31,6 +32,7 @@ export function ArrowList<T>({
   ref,
   direction = "vertical",
   bare,
+  htmlUlElementProps,
 }: ArrowListProps<T>) {
   const base = bare ? "" : "overflow-y-auto no-scrollbar";
   const [prevKey, nextKey] =
@@ -41,6 +43,7 @@ export function ArrowList<T>({
 
   return (
     <ul
+      {...htmlUlElementProps}
       ref={ref}
       className={cn(base, className)}
       tabIndex={0}
