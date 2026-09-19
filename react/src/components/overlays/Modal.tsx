@@ -35,6 +35,7 @@ export function Modal({
   overlayClassName,
 }: ModalProps) {
   const lastFocusedRef = useRef<HTMLElement | null>(null);
+  const overlayRef = useRef<HTMLDivElement | null>(null);
 
   // close on Escape
   const handler = (e: KeyboardEvent) => {
@@ -56,10 +57,35 @@ export function Modal({
     };
   }, [onClose, isOpen]);
 
+  // track visualViewport so the overlay recalculates when the iPad/iOS
+  // on-screen keyboard opens (layout viewport/100vh doesn't shrink there)
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const vv = window.visualViewport;
+    if (!vv) return;
+
+    const updateViewport = () => {
+      const el = overlayRef.current;
+      if (!el) return;
+      el.style.height = `${vv.height}px`;
+      el.style.top = `${vv.offsetTop}px`;
+    };
+
+    updateViewport();
+    vv.addEventListener("resize", updateViewport);
+    vv.addEventListener("scroll", updateViewport);
+    return () => {
+      vv.removeEventListener("resize", updateViewport);
+      vv.removeEventListener("scroll", updateViewport);
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return createPortal(
     <div
+      ref={overlayRef}
       className={cn(
         "fixed inset-0 z-50 flex items-center justify-center",
         overlayClassName,

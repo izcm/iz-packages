@@ -1,5 +1,0 @@
-@import "@a2zb/styles";
-@import "@a2zb/styles/base.css";
-
-/*https://tailkits.com/blog/tailwind-at-source-directive */
-@source "../src";

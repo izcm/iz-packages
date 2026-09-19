@@ -37,10 +37,9 @@
   --color-critical: var(--critical);
 
   /* family 2 — not a problem at all, just information: is there anything
-     to act on right now? "neutral" = no, it's done/resolved. "pending" =
-     no, not yet — scheduled for later. These don't rank against family 1. */
+     to act on right now? "neutral" = no, it's done/resolved. These don't
+     rank against family 1. */
   --color-neutral: var(--neutral);
-  --color-pending: var(--pending);
 
   /* subtle self-shaded gradients — KPI tiles, bar chart bars */
   --gradient-critical: linear-gradient(
@@ -58,11 +57,6 @@
     var(--advisory) 0%,
     color-mix(in oklab, var(--advisory) 85%, black) 100%
   );
-  --gradient-pending: linear-gradient(
-    160deg,
-    var(--pending) 0%,
-    color-mix(in oklab, var(--pending) 85%, black) 100%
-  );
   --gradient-neutral: linear-gradient(
     160deg,
     var(--neutral) 0%,
@@ -75,7 +69,6 @@
   --background-image-gradient-critical: var(--gradient-critical);
   --background-image-gradient-caution: var(--gradient-caution);
   --background-image-gradient-advisory: var(--gradient-advisory);
-  --background-image-gradient-pending: var(--gradient-pending);
   --background-image-gradient-neutral: var(--gradient-neutral);
 
   /* weak = same base color, --weak-opacity applied (theme-tuned, see below) */
@@ -102,11 +95,6 @@
   --advisory-weak: var(--success-weak);
   --caution-weak: var(--warning-weak);
   --critical-weak: var(--failure-weak);
-  --pending-weak: color-mix(
-    in oklab,
-    var(--pending) var(--weak-opacity),
-    transparent
-  );
 
   /* --- shadows --- */
   --shadow-panel: var(--panel-shadow);
@@ -131,7 +119,7 @@
 
   --ground: #0b0b0e;
   --raised: #131316;
-  --lowered: #060607;
+  --lowered: #121113;
   --elevated: #191a1e;
   --elevated-alt: #1e1f24;
 
@@ -139,13 +127,17 @@
   --subtle: rgba(195, 205, 215, 0.75);
   --muted: rgba(165, 175, 185, 0.6);
   --faint: rgba(150, 160, 170, 0.4);
+  --extra-faint: rgba(150, 160, 170, 0.2);
 
   --line: rgba(120, 255, 180, 0.35);
 
   --accent-strong: #66ffb2; /* rare, special */
   --accent: #49ca8a; /* normal primary */
+  --accent-muted: color-mix(in oklab, var(--accent) 45%, var(--muted));
+  --accent-weak: rgba(73, 202, 138, 0.6);
 
-  --accent-neutral: #5ee7ff;
+  --accent-neutral: #4d9dff;
+  --accent-neutral-weak: rgba(77, 157, 255, 0.5);
 
   --success: #4cff9a;
   --warning: #ffc12f;
@@ -156,7 +148,6 @@
   --critical: var(--failure);
 
   --neutral: #8f9aa3;
-  --pending: var(--accent-neutral);
 
   --weak-opacity: 18%;
 
@@ -177,7 +168,7 @@
   );
 
   --panel-shadow:
-    0 0 10px rgba(102, 255, 178, 0.25), 0 0 40px rgba(102, 255, 178, 0.1);
+    0 8px 24px rgba(0, 0, 0, 0.4), 0 0 20px rgba(73, 202, 138, 0.06);
 }
 
 :root[data-theme="void"] {
@@ -185,7 +176,7 @@
 
   --ground: #010208;
   --raised: #0b0f29; /* noticeably lifted */
-  --lowered: #000104;
+  --lowered: #0a0b1b;
   --elevated: #131a3d;
   --elevated-alt: #182050;
 
@@ -193,16 +184,20 @@
   --subtle: rgba(190, 195, 225, 0.78);
   --muted: rgba(170, 180, 220, 0.65);
   --faint: rgba(155, 165, 210, 0.42);
+  --extra-faint: rgba(155, 165, 210, 0.21);
 
   --line: rgba(120, 140, 255, 0.45);
 
   --accent: #7c84ff;
   --accent-strong: #a5abff;
+  --accent-muted: color-mix(in oklab, var(--accent) 45%, var(--muted));
+  --accent-weak: rgba(124, 132, 255, 0.6);
 
-  --accent-neutral: #d6ff6b;
+  --accent-neutral: #6eb4ff;
+  --accent-neutral-weak: rgba(110, 180, 255, 0.5);
 
   --success: #7cf7d4;
-  --warning: #d6ff6b;
+  --warning: #ffb648;
   --failure: #f0356a;
 
   --advisory: var(--success);
@@ -210,7 +205,6 @@
   --critical: var(--failure);
 
   --neutral: #9aa0c4;
-  --pending: var(--accent-neutral);
 
   --weak-opacity: 18%;
 
@@ -231,74 +225,5 @@
   );
 
   --panel-shadow:
-    0 0 24px rgba(124, 132, 255, 0.22), 0 0 80px rgba(124, 132, 255, 0.14),
-    0 0 160px rgba(58, 209, 255, 0.1);
-}
-
-:root[data-theme="swh"] {
-  color-scheme: dark;
-
-  /* surfaces */
-  /* --ground: #060f17; */
-  --ground: #030815;
-  --raised: #0a1328;
-  --lowered: #091020;
-  --elevated: #0c152a;
-  --elevated-alt: #0e172e;
-
-  --ground-gradient: radial-gradient(
-    1200px 600px at 50% -10%,
-    color-mix(in oklab, var(--accent) 5%, transparent),
-    transparent
-  );
-  --raised-gradient: linear-gradient(
-    160deg,
-    var(--raised) 0%,
-    var(--elevated) 100%
-  );
-  --elevated-gradient: linear-gradient(
-    160deg,
-    var(--elevated-alt) 0%,
-    var(--elevated) 100%
-  );
-
-  /* text / borders */
-  --fg: rgba(238, 242, 245, 0.94);
-  --line: lab(88.79% -2.46 -8.05 / 0.24);
-
-  --subtle: rgba(200, 214, 225, 0.66);
-  --muted: rgba(174, 191, 204, 0.5);
-  --faint: rgba(174, 191, 204, 0.19);
-  --extra-faint: rgba(174, 191, 204, 0.1);
-
-  /* accent */
-  --accent: #5b9dff;
-  --accent-strong: #8fbfff;
-  --accent-muted: color-mix(in oklab, var(--accent) 45%, var(--muted));
-  --accent-weak: rgba(91, 157, 255, 0.6);
-  --accent-neutral: #7fb0ff;
-  --accent-neutral-weak: rgba(127, 176, 255, 0.5);
-
-  --weak-opacity: 18%;
-
-  /* status */
-  --success: #4cff9a;
-  --warning: #ffc12f;
-  --failure: #ff5470;
-
-  /* family 1 — attention levels, same colors as success/warning/failure above */
-  --advisory: var(--success);
-  --caution: var(--warning);
-  --critical: var(--failure);
-
-  /* family 2 — not-actionable info. "neutral" = done/resolved (gray).
-     "pending" = not yet — scheduled for later; reuses accent-neutral, a
-     blue distinct from --accent itself, since accent is this app's
-     general-purpose chrome color, not a status. */
-  --neutral: #91a7b8;
-
-  --pending: var(--accent-neutral);
-
-  --panel-shadow:
-    0 8px 24px rgba(0, 0, 0, 0.4), 0 0 20px rgba(91, 157, 255, 0.06);
+    0 8px 24px rgba(0, 0, 0, 0.4), 0 0 20px rgba(124, 132, 255, 0.06);
 }

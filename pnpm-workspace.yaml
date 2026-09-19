@@ -9,6 +9,7 @@ packages:
   - "viem"
   - "react-wagmi"
   - "mongo"
+  - "blockchain"
 allowBuilds:
   bufferutil: true
   esbuild: true

@@ -1,0 +1,26 @@
+{
+  "name": "@a2zb/blockchain",
+  "version": "1.0.0",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "peerDependencies": {
+    "viem": "^2"
+  },
+  "dependencies": {
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24",
+    "typescript": "^6.0.3",
+    "viem": "^2",
+    "vitest": "^4.1.9"
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsc",
+    "test": "vitest run"
+  }
+}

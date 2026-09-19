@@ -1,8 +1,9 @@
 import { ComponentProps, ReactNode, RefObject, useEffect } from "react";
 
-import { ArrowRow } from "../data-display/index.js";
-import { ArrowList } from "../navigation/index.js";
 import { cn } from "@/lib/utils/cn.js";
+
+import { ArrowRow } from "./ArrowRow.js";
+import { ArrowList } from "./ArrowList.js";
 
 const focusInset =
   "focus-visible:!ring-1 focus-visible:!ring-accent focus-visible:!ring-inset;";
@@ -36,24 +37,19 @@ export type GalleryProps<T> = {
   // render
   galleryItem: (item: T, isSelected: boolean) => ReactNode;
   isDisabled?: (item: T) => boolean;
-  isFresh?: (item: T) => boolean;
 
   // ref + pagination
   ref?: RefObject<HTMLUListElement | null>;
   onLoadMore?: () => void;
   isLoading?: boolean;
   hasMore?: boolean;
-  className?: {
-    arrowList?: string;
-    arrowRow?: (state: {
-      isSelected: boolean;
-      isDisabled?: boolean;
-      isFresh?: boolean;
-    }) => string;
-  };
   direction?: "vertical" | "horizontal";
-  htmlUlElementProps?: Omit<ComponentProps<"ul">, "className" | "ref">;
-  htmlLiElementProps?: Omit<ComponentProps<"li">, "className" | "ref">;
+
+  htmlUlElementProps?: Omit<ComponentProps<"ul">, "ref">;
+  htmlLiElementProps?: (state: {
+    isSelected: boolean;
+    isDisabled?: boolean;
+  }) => Omit<ComponentProps<"li">, "ref">;
 };
 
 export function Gallery<T>({
@@ -64,12 +60,10 @@ export function Gallery<T>({
   onSelect,
   onEnter,
   isDisabled,
-  isFresh,
   ref,
   onLoadMore,
   isLoading,
   hasMore,
-  className,
   direction,
   htmlUlElementProps,
   htmlLiElementProps,
@@ -121,6 +115,8 @@ export function Gallery<T>({
     el.scrollTop -= 40;
   }, [selected, ref]);
 
+  const { className: ulClassName, ...restUlProps } = htmlUlElementProps ?? {};
+
   return (
     <ArrowList
       ref={ref}
@@ -130,29 +126,30 @@ export function Gallery<T>({
       onSelect={(c) => onSelect?.(c)}
       isDisabled={isDisabled}
       direction={direction}
-      htmlUlElementProps={htmlUlElementProps}
-      className={cn(
-        // "min-h-0 flex-1 p-1",
-        className?.arrowList,
-      )}
+      htmlUlElementProps={restUlProps}
+      className={ulClassName}
     >
-      {({ item, isSelected, onSelect }) => (
-        <ArrowRow
-          key={getId(item)}
-          isSelected={isSelected}
-          isDisabled={isDisabled?.(item)}
-          onSelect={onSelect}
-          onEnter={onEnter ? () => onEnter(item) : undefined}
-          htmlLiElementProps={{ ...htmlLiElementProps, "data-id": getId(item) }}
-          className={className?.arrowRow?.({
+      {({ item, isSelected, onSelect }) => {
+        const { className: liClassName, ...restLiProps } =
+          htmlLiElementProps?.({
             isSelected,
             isDisabled: isDisabled?.(item),
-            isFresh: isFresh?.(item),
-          })}
-        >
-          {galleryItem(item, isSelected)}
-        </ArrowRow>
-      )}
+          }) ?? {};
+
+        return (
+          <ArrowRow
+            key={getId(item)}
+            isSelected={isSelected}
+            isDisabled={isDisabled?.(item)}
+            onSelect={onSelect}
+            onEnter={onEnter ? () => onEnter(item) : undefined}
+            htmlLiElementProps={{ ...restLiProps, "data-id": getId(item) }}
+            className={liClassName}
+          >
+            {galleryItem(item, isSelected)}
+          </ArrowRow>
+        );
+      }}
     </ArrowList>
   );
 }
