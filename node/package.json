@@ -1,6 +1,6 @@
 {
   "name": "@a2zb/node",
-  "version": "0.100.0-reset.0",
+  "version": "0.100.0-reset",
   "type": "module",
   "files": [
     "dist"
@@ -14,7 +14,7 @@
     }
   },
   "dependencies": {
-    "@a2zb/lib": "file:../lib"
+    "@a2zb/lib": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^24",

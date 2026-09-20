@@ -1,6 +1,6 @@
 {
   "name": "@a2zb/lib",
-  "version": "0.100.0-reset.0",
+  "version": "0.100.0-reset",
   "type": "module",
   "files": [
     "dist"
@@ -8,7 +8,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "dependencies": {
-    "@a2zb/types": "file:../types"
+    "@a2zb/types": "workspace:*"
   },
   "scripts": {
     "build": "rm -rf dist && tsc",

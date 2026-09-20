@@ -1,6 +1,6 @@
 {
   "name": "@a2zb/react-wagmi",
-  "version": "0.100.0-reset.0",
+  "version": "0.100.0-reset",
   "type": "module",
   "files": [
     "dist"
@@ -8,7 +8,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "dependencies": {
-    "@a2zb/viem": "file:../viem"
+    "@a2zb/viem": "workspace:*"
   },
   "peerDependencies": {
     "@tanstack/query-core": "^5",

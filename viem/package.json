@@ -1,6 +1,6 @@
 {
   "name": "@a2zb/viem",
-  "version": "0.100.0-reset.0",
+  "version": "0.100.0-reset",
   "type": "module",
   "files": [
     "dist"

@@ -1,6 +1,6 @@
 {
   "name": "@a2zb/react",
-  "version": "0.100.0-reset.0",
+  "version": "0.100.0-reset",
   "type": "module",
   "files": [
     "dist"
@@ -8,19 +8,19 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "dependencies": {
-    "@a2zb/lib": "1.0.1",
+    "@a2zb/lib": "workspace:*",
     "clsx": "^2.1.1",
     "focus-trap-react": "^12.0.0",
     "lucide-react": "^1.30.0",
     "tailwind-merge": "^3.6.0"
   },
   "peerDependencies": {
-    "@a2zb/styles": "^1.0.0",
+    "@a2zb/styles": "workspace:*",
     "react": "^19",
     "sonner": "^2.0.7"
   },
   "devDependencies": {
-    "@a2zb/styles": "file:../styles",
+    "@a2zb/styles": "workspace:*",
     "@tailwindcss/vite": "^4",
     "@testing-library/react": "^16.3.2",
     "@types/node": "^24",
