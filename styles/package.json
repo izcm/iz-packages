@@ -1,6 +1,6 @@
 {
   "name": "@a2zb/styles",
-  "version": "1.0.4",
+  "version": "0.100.0-reset.0",
   "exports": {
     ".": "./index.css",
     "./*.css": "./*.css"

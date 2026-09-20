@@ -1,6 +1,6 @@
 {
   "name": "@a2zb/react-wagmi",
-  "version": "1.0.0",
+  "version": "0.100.0-reset.0",
   "type": "module",
   "files": [
     "dist"
